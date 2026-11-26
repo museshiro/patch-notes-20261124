@@ -1,0 +1,1 @@
+v3.1.0: Fixed bug where sneeze interrupt fires only when both hands are full and mouth is 90% full.
