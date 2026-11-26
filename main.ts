@@ -1,25 +1,18 @@
-// Patch Notes entry: one line, at most 160 characters.
-// Writes the line to $MAKEFUN_OUTPUT_DIR/entry.txt, exactly as the
-// competition harness expects. Deterministic: same bytes every run.
 import { mkdirSync, writeFileSync } from "node:fs";
-import { join } from "node:path";
 
-const LINE =
-  "v1.6.3: fixed a bug where the tongue probed the same sore spot 400 times a day, despite repeated warnings from the user.";
+const line =
+  "v3.1.0: Fixed bug where sneeze interrupt fires only when " +
+  "both hands are full and mouth is 90% full.";
 
-if (LINE.length > 160) {
-  throw new Error(`line is ${LINE.length} characters, over the 160 limit`);
+if (line.length === 0 || line.trim().length === 0) {
+  throw new Error("entry must not be empty");
 }
-if (LINE.trim().length === 0) {
-  throw new Error("line must not be empty or only whitespace");
+if (line.length > 160) {
+  throw new Error("entry must be at most 160 characters");
 }
-if (LINE.includes("\n") || LINE.includes("\r")) {
-  throw new Error("line must be a single line");
+if (line.includes("\n")) {
+  throw new Error("entry must be a single line");
 }
 
-const outDir = process.env.MAKEFUN_OUTPUT_DIR;
-if (!outDir) {
-  throw new Error("MAKEFUN_OUTPUT_DIR is not set");
-}
-mkdirSync(outDir, { recursive: true });
-writeFileSync(join(outDir, "entry.txt"), LINE + "\n", "utf8");
+mkdirSync("/output", { recursive: true });
+writeFileSync("/output/entry.txt", line + "\n", "utf8");
